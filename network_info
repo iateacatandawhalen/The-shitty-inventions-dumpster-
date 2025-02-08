@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Network Info Script
+
+# Function to get basic network information
+get_network_info() {
+    echo "Network Information:"
+    echo "---------------------"
+
+    # Check for active network interfaces
+    ip -br a
+
+    echo ""
+    # Get the public IP address (requires curl)
+    echo "Public IP Address:"
+    if command -v curl &>/dev/null; then
+        public_ip=$(curl -s https://ipinfo.io/ip)
+        echo "$public_ip"
+    else
+        echo "curl is not installed. Please install it to fetch public IP."
+    fi
+
+    echo ""
+    # Get routing table info
+    echo "Routing Table:"
+    ip route show
+
+    echo ""
+    # Get DNS info
+    echo "DNS Servers:"
+    cat /etc/resolv.conf | grep -i 'nameserver'
+
+    echo ""
+    # Get network statistics
+    echo "Network Statistics (bytes sent/received):"
+    netstat -i
+}
+
+# Function to check if the system is connected to the internet
+check_internet_connection() {
+    echo ""
+    echo "Checking Internet Connection..."
+
+    # Try to ping Google's DNS server (8.8.8.8)
+    if ping -c 4 8.8.8.8 &>/dev/null; then
+        echo "Internet is connected."
+    else
+        echo "No internet connection detected."
+    fi
+}
+
+# Run the functions
+get_network_info
+check_internet_connection

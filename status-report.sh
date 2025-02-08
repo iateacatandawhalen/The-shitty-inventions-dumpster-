@@ -2,6 +2,9 @@
 
 # Status Report Script
 
+# Ensure the system timezone is set to Europe/Copenhagen
+timedatectl set-timezone Europe/Copenhagen
+
 # Function to display system uptime
 get_uptime() {
     echo "System Uptime:"
@@ -46,7 +49,7 @@ get_processes() {
 
 # Function to get the system's current time and date
 get_system_time() {
-    echo "Current System Time:"
+    echo "Current System Time (Danish Time):"
     date
     echo ""
 }
